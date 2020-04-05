@@ -19,6 +19,9 @@ class AddOutletIdToSomeTable extends Migration
         Schema::table('suppliers', function (Blueprint $table) {
             $table->foreignId('outlet_id')->after('id')->constrained()->onDelete('cascade');
         });
+        Schema::table('customers', function (Blueprint $table) {
+            $table->foreignId('outlet_id')->after('id')->constrained()->onDelete('cascade');
+        });
         Schema::table('inventories', function (Blueprint $table) {
             $table->foreignId('outlet_id')->after('id')->constrained()->onDelete('cascade');
         });

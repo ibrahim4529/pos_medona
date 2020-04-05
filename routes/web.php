@@ -20,3 +20,7 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('users/json', 'UserController@datatable');
+Route::resource('users', 'UserController');
+Route::get('outlets/json', 'OutletController@datatable');
+Route::resource('outlets', 'OutletController');
