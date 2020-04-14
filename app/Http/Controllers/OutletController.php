@@ -40,6 +40,7 @@ class OutletController extends Controller
      */
     public function create()
     {
+        return view('outlet.create');
     }
 
     /**

@@ -1,5 +1,5 @@
 @extends('layouts.app')
-@section('title', 'Users')
+@section('title', 'Customers')
 @section('content')
-  <x-data-table title="Users" :items="$users"/>
+  <x-data-table title="Customers" :header="$header_table" resource="customers"/>
 @endsection

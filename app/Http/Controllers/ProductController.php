@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Product;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class ProductController extends Controller
 {
+    public function datatable()
+    {
+        $products = Product::all(['id', 'name', 'price', 'qty']);
+        return DataTables::of($products)->addColumn('action', function ($data) {
+            $update = '<a href="javascript:void(0)" class="btn btn-primary">' . $data->id . '</a>';
+            return $update;
+        })->rawColumns(['action'])->make(true);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,8 +23,16 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
+        $header_table = [
+            'id' => 'ID',
+            'name' => 'Nama',
+            'price' => 'Harga',
+            'qty' => 'Jumlah',
+            'action' => 'Action'
+        ];
+        return view('product.index', compact('header_table'));
     }
+
 
     /**
      * Show the form for creating a new resource.

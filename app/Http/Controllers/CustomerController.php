@@ -4,9 +4,18 @@ namespace App\Http\Controllers;
 
 use App\Customer;
 use Illuminate\Http\Request;
+use Yajra\DataTables\DataTables;
 
 class CustomerController extends Controller
 {
+    public function datatable()
+    {
+        $customers = Customer::all(['id', 'email', 'name', 'address', 'phone']);
+        return DataTables::of($customers)->addColumn('action', function ($data) {
+            $update = '<a href="javascript:void(0)" class="btn btn-primary">' . $data->id . '</a>';
+            return $update;
+        })->rawColumns(['action'])->make(true);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +23,15 @@ class CustomerController extends Controller
      */
     public function index()
     {
-        //
+        $header_table = [
+            'id' => 'ID',
+            'email' => 'Alamat Email',
+            'name' => 'Nama Lengkap',
+            'address' => 'Alamat',
+            'phone' => 'Nomor Telepon',
+            'action' => 'Action'
+        ];
+        return view('customer.index', compact('header_table'));
     }
 
     /**
