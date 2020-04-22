@@ -25,8 +25,8 @@ class OutletController extends Controller
     {
         $header_table = [
             'id' => 'ID',
-            'name' => 'Alamat Email',
-            'phone' => 'Nama Lengkap',
+            'name' => 'Nama Outlet',
+            'phone' => 'No Telepon',
             'address' => 'Alamat',
             'action' => 'Action'
         ];
@@ -51,7 +51,9 @@ class OutletController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $data = $request->all();
+        Outlet::create($data);
+        return response()->json(['data' => $data], 200);
     }
 
     /**
