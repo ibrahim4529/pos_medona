@@ -12,8 +12,10 @@ class OutletController extends Controller
     {
         $outlets = Outlet::all(['id','name', 'phone', 'address']);
         return DataTables::of($outlets)->addColumn('action', function ($data) {
-            $update = '<a href="javascript:void(0)" class="btn btn-primary">' . $data->id . '</a>';
-            return $update;
+            $edit = '<button onclick="edit_data('.$data->id.')" class="btn btn-sm btn-primary"><i class="flaticon flaticon-pencil"></i> Edit</button>';
+            $delete = '<button onclick="delete_data('.$data->id.')" class="btn btn-sm btn-danger"><i class="flaticon flaticon-close"></i> Delete</button>';
+            $action = '<div class="btn-group" role="group" aria-label="Basic example">'.$edit.$delete.'</div>';
+            return $action;
         })->rawColumns(['action'])->make(true);
     }
     /**
@@ -52,10 +54,10 @@ class OutletController extends Controller
     public function store(Request $request)
     {
         $data = $request->all();
+        $this->validate($request, ['name' => 'required', 'address' => 'required', 'phone' => 'required']);
         Outlet::create($data);
         return response()->json(['data' => $data], 200);
     }
-
     /**
      * Display the specified resource.
      *
@@ -64,7 +66,8 @@ class OutletController extends Controller
      */
     public function show(Outlet $outlet)
     {
-        //
+        $outlet = $outlet->only(['name', 'address', 'phone']);
+        return response()->json($outlet);
     }
 
     /**
@@ -87,7 +90,10 @@ class OutletController extends Controller
      */
     public function update(Request $request, Outlet $outlet)
     {
-        //
+        $data = $request->all();
+        // $this->validate($request, ['name' => 'required', 'address' => 'required', 'phone' => 'required']);
+        // $outlet->update($data);
+        return response()->json(['data' => $data], 200);
     }
 
     /**
@@ -98,6 +104,6 @@ class OutletController extends Controller
      */
     public function destroy(Outlet $outlet)
     {
-        //
+        $outlet->delete();
     }
 }

@@ -8,7 +8,7 @@
     <title>Medona|@yield('title') </title>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.min.css') }}">
     <link rel="stylesheet" href="{{ asset('css/atlantis.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('css/fonts.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/fonts.css') }}">
     @stack('css')
 </head>
 <body @guest class="login" @endguest>

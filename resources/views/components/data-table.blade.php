@@ -36,7 +36,7 @@
                                     <div class="modal-header border-0">
                                         <h5 class="modal-title">
                                             <span class="fw-mediumbold">
-                                            New</span> 
+                                                New </span>
                                             <span class="fw-light">
                                                 {{$title}}
                                             </span>
@@ -46,14 +46,15 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        {{Form::open(['id' => 'form'])}}
+                                        <form enctype="multipart/form-data" id="form">
                                         <div class="row">
                                             {{$slot}}
                                         </div>
-                                        {{Form::close()}}
+                                        </form>
                                     </div>
                                     <div class="modal-footer border-0">
-                                        <button type="button" onclick="save_data()" id="btn_save" class="btn btn-primary">Save data</button>
+                                        <button type="button" onclick="save_data()" id="btn_save"
+                                            class="btn btn-primary">Save data</button>
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                     </div>
                                 </div>
@@ -62,11 +63,11 @@
                         <div class="table-responsive">
                             <table width="100%" id="dataTable" class="display table table-striped table-hover">
                                 <thead>
-                                <tr>
-                                    @foreach($header as $title)
+                                    <tr>
+                                        @foreach($header as $title)
                                         <th>{{ucfirst($title)}}</th>
-                                    @endforeach
-                                </tr>
+                                        @endforeach
+                                    </tr>
                                 </thead>
                             </table>
                         </div>
@@ -78,20 +79,22 @@
 </div>
 
 @push('js')
-    <script !src="">
-        var table;
+<script !src="">
+    var table;
         var method;
+        var url = "{{$resource}}";
+        var edited_id;
         $(function () {
             $.ajaxSetup({
-    headers: {
-        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-    }
-});
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
             table = $('#dataTable').DataTable({
                 processing: true,
                 serverSide: true,
                 pageLength: 5,
-                ajax: "{{$resource."/json"}}",
+                ajax: url+'/json',
                 columns: [
                         @foreach($header as $key => $val)
                     {
@@ -106,37 +109,70 @@
 
         function add_data(){
             method = "POST";
-            $("#form")[0].reset();
+            reset_form();
             $("#modal_form").modal('show');
             $('.modal-title').text('Add Data');
         }
 
         function edit_data(id){
-            method = "PATCH";
-            $("#form")[0].reset();
-            $("#modal_form").modal('show');
-            $('.modal-title').text('Edit Data');
-        }
-
-        function save_data(){
-            var url = "{{$resource}}";
-            alert(url);
-            alert($("#form").serialize());
+            edited_id = id;
+            method = "PUT";
+            reset_form();
             $.ajax({
-                url: url,
-                type: method,
-                data: $("#form").serialize(),
-                dataType: "JSON",
+                url: url+'/'+id,
+                type: 'GET',
+                dataType: 'JSON',
                 success: function(data){
-                    console.log(data);
-                    $("#modal_form").modal('hide');
-                    reload_table()
+                    $.each(data, function(key, value){
+                        console.log('Key: '+ key + ' Value: '+ value);
+                        $("#form input[name="+key+"]").val(value);
+                    });
+                    $("#modal_form").modal('show');
+                    $('.modal-title').text('Edit Data');
                 }
             })
         }
 
+        function save_data(){
+            $.ajax({
+                url: method == 'POST' ? url : url+'/'+edited_id,
+                type: method,
+                data: $("#form").serialize(),
+                dataType: "JSON",
+                success: function(data){
+                    $("#modal_form").modal('hide');
+                    reload_table()
+                },
+                error: function(xhr, error, errorThrown){
+                    if(xhr.status == 422){
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(index, val){
+                            $(".form-group#"+index).addClass('has-error has-feedback').append(
+                                '<label class="error" for="'+index+'">'+val[0]+'</label>'
+                            );
+                        })
+                    }
+                }
+            })
+        }
+        function delete_data(id){
+            $.ajax({
+                url: url+'/'+id,
+                method: 'DELETE',
+                success: function(data){
+                    console.log("Delete");
+                    reload_table(false);
+                }
+            })
+        }
         function reload_table(){
             table.ajax.reload(false);
         }
-    </script>
+
+        function reset_form(){
+            $(".has-error label.error").remove();
+            $(".has-error").removeClass("has-error has-feedback");
+            $("#form")[0].reset();
+        }
+</script>
 @endpush
