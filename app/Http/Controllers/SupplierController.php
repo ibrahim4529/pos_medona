@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Outlet;
 use App\Supplier;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -12,8 +13,10 @@ class SupplierController extends Controller
     {
         $suppliers = Supplier::all(['id', 'email','name', 'phone']);
         return DataTables::of($suppliers)->addColumn('action', function ($data) {
-            $update = '<a href="javascript:void(0)" class="btn btn-primary">' . $data->id . '</a>';
-            return $update;
+            $edit = '<button onclick="edit_data(' . $data->id . ')" class="btn btn-sm btn-primary"><i class="flaticon flaticon-pencil"></i> Edit</button>';
+            $delete = '<button onclick="delete_data(' . $data->id . ')" class="btn btn-sm btn-danger"><i class="flaticon flaticon-close"></i> Delete</button>';
+            $action = '<div class="btn-group" role="group" aria-label="Basic example">' . $edit . $delete . '</div>';
+            return $action;
         })->rawColumns(['action'])->make(true);
     }
     /**
@@ -30,17 +33,8 @@ class SupplierController extends Controller
             'phone' => 'Nomor Telepon',
             'action' => 'Action'
         ];
-        return view('supplier.index', compact('header_table'));
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $outlets = Outlet::all()->pluck('name', 'id');
+        return view('supplier.index', compact('header_table', 'outlets'));
     }
 
     /**
@@ -51,7 +45,10 @@ class SupplierController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        $this->validate($request, ['name' => 'required', 'phone' => 'required']);
+        Supplier::create($input);
+        return response()->json(['message' => 'Success'], 200);
     }
 
     /**
@@ -62,18 +59,8 @@ class SupplierController extends Controller
      */
     public function show(Supplier $supplier)
     {
-        //
-    }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Supplier  $supplier
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Supplier $supplier)
-    {
-        //
+        $supplier = $supplier->only([ 'name', 'address', 'phone', 'email', 'outlet_id']);
+        return response()->json($supplier);
     }
 
     /**
@@ -96,6 +83,6 @@ class SupplierController extends Controller
      */
     public function destroy(Supplier $supplier)
     {
-        //
+        $supplier->delete();
     }
 }

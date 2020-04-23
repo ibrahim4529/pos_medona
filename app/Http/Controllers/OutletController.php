@@ -10,14 +10,15 @@ class OutletController extends Controller
 {
     public function datatable()
     {
-        $outlets = Outlet::all(['id','name', 'phone', 'address']);
+        $outlets = Outlet::all(['id', 'name', 'phone', 'address']);
         return DataTables::of($outlets)->addColumn('action', function ($data) {
-            $edit = '<button onclick="edit_data('.$data->id.')" class="btn btn-sm btn-primary"><i class="flaticon flaticon-pencil"></i> Edit</button>';
-            $delete = '<button onclick="delete_data('.$data->id.')" class="btn btn-sm btn-danger"><i class="flaticon flaticon-close"></i> Delete</button>';
-            $action = '<div class="btn-group" role="group" aria-label="Basic example">'.$edit.$delete.'</div>';
+            $edit = '<button onclick="edit_data(' . $data->id . ')" class="btn btn-sm btn-primary"><i class="flaticon flaticon-pencil"></i> Edit</button>';
+            $delete = '<button onclick="delete_data(' . $data->id . ')" class="btn btn-sm btn-danger"><i class="flaticon flaticon-close"></i> Delete</button>';
+            $action = '<div class="btn-group" role="group" aria-label="Basic example">' . $edit . $delete . '</div>';
             return $action;
         })->rawColumns(['action'])->make(true);
     }
+
     /**
      * Display a listing of the resource.
      *
@@ -58,6 +59,7 @@ class OutletController extends Controller
         Outlet::create($data);
         return response()->json(['data' => $data], 200);
     }
+
     /**
      * Display the specified resource.
      *
@@ -71,17 +73,6 @@ class OutletController extends Controller
     }
 
     /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\Outlet $outlet
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Outlet $outlet)
-    {
-        //
-    }
-
-    /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
@@ -91,8 +82,8 @@ class OutletController extends Controller
     public function update(Request $request, Outlet $outlet)
     {
         $data = $request->all();
-        // $this->validate($request, ['name' => 'required', 'address' => 'required', 'phone' => 'required']);
-        // $outlet->update($data);
+        $this->validate($request, ['name' => 'required', 'address' => 'required', 'phone' => 'required']);
+        $outlet->update($data);
         return response()->json(['data' => $data], 200);
     }
 
