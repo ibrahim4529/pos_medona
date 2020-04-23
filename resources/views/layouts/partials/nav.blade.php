@@ -60,7 +60,6 @@
                         </ul>
                     </div>
                 </li>
-
                 <li class="nav-section">
 							<span class="sidebar-mini-icon">
 								<i class="fa fa-ellipsis-h"></i>
@@ -69,25 +68,34 @@
                 </li>
                 <li class="nav-item" >
                     <a data-toggle="collapse" href="#inventories" class="collapse"  @url('inventory*') aria-expanded="true" @endurl>
-                        <i class="icon-notebook"></i>
+                        <i class="fa fa-th-large"></i>
                         <p>Inventory</p>
                         <span class="caret"></span>
                     </a>
                     <div class="collapse @url('inventory*') show @endurl" id="inventories">
                         <ul class="nav nav-collapse">
+                            <li @url('inventory/categories') class=" active " @endurl>
+                                <a href="{{ route('categories.index') }}">
+                                    <i class="fas fa-th-list"></i>
+                                    <p>Master Kategori</p>
+                                </a>
+                            </li>
                             <li @url('inventory/products') class=" active " @endurl>
                                 <a href="{{ route('products.index') }}">
-                                    <span class="sub-item">List Stok</span>
+                                    <i class="fas fa-th"></i>
+                                    <p>Master Produk</p>
                                 </a>
                             </li>
-                            <li >
-                                <a href="{{ URL('users') }}">
-                                    <span class="sub-item">Stok Masuk</span>
+                            <li @url('inventory/out') class=" active " @endurl>
+                                <a href="{{ route('products.index') }}">
+                                    <i class="fas fa-arrow-circle-left"></i>
+                                    <p>Produk Masuk</p>
                                 </a>
                             </li>
-                            <li>
-                                <a href="{{ URL('users') }}">
-                                    <span class="sub-item">Stok Keluar</span>
+                            <li @url('inventory/in') class=" active " @endurl>
+                                <a href="{{ route('products.index') }}">
+                                    <i class="fas fa-share-square"></i>
+                                    <p>Produk Keluar</p>
                                 </a>
                             </li>
                         </ul>
@@ -95,7 +103,7 @@
                 </li>
                 <li class="nav-item">
                     <a href="{{ URL('outlets') }}">
-                        <i class="icon-wallet"></i>
+                        <i class="fa fa-shopping-bag"></i>
                         <p>Transaksi</p>
                     </a>
                 </li>

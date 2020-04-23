@@ -40,6 +40,10 @@ Route::prefix('users')->group(function () {
     ]);
 });
 Route::prefix('inventory')->group(function () {
+    Route::get('categories/json', 'CategoryController@datatable');
+    Route::resource('categories', 'CategoryController', [
+        'except' => ['edit', 'create']
+    ]);
     Route::get('products/json', 'ProductController@datatable');
     Route::resource('products', 'ProductController', [
         'except' => ['edit', 'create']
