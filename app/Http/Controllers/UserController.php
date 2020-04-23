@@ -35,16 +35,6 @@ class UserController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
-
-    /**
      * Store a newly created resource in storage.
      *
      * @param \Illuminate\Http\Request $request
@@ -52,7 +42,9 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        $input['photo'] = $request->file('photo')->getClientOriginalName();
+        return response()->json($input);
     }
 
     /**
@@ -65,18 +57,6 @@ class UserController extends Controller
     {
         //
     }
-
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param \App\User $user
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(User $user)
-    {
-        //
-    }
-
     /**
      * Update the specified resource in storage.
      *

@@ -22,16 +22,26 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::get('outlets/json', 'OutletController@datatable');
-Route::resource('outlets', 'OutletController');
+Route::resource('outlets', 'OutletController', [
+    'except' => ['edit', 'create']
+]);
 Route::prefix('users')->group(function () {
     Route::get('pegawai/json', 'UserController@datatable');
-    Route::resource('pegawai', 'UserController');
+    Route::resource('pegawai', 'UserController', [
+        'except' => ['edit', 'create']
+    ]);
     Route::get('customers/json', 'CustomerController@datatable');
-    Route::resource('customers', 'CustomerController');
+    Route::resource('customers', 'CustomerController', [
+        'except' => ['edit', 'create']
+    ]);
     Route::get('suppliers/json', 'SupplierController@datatable');
-    Route::resource('suppliers', 'SupplierController');
+    Route::resource('suppliers', 'SupplierController', [
+        'except' => ['edit', 'create']
+    ]);
 });
 Route::prefix('inventory')->group(function () {
     Route::get('products/json', 'ProductController@datatable');
-    Route::resource('products', 'ProductController');
+    Route::resource('products', 'ProductController', [
+        'except' => ['edit', 'create']
+    ]);
 });

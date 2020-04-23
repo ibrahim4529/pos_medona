@@ -21,17 +21,53 @@
             <div class="col-md-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4 class="card-title">{{$title}}</h4>
+                        <div class="d-flex align-items-center">
+                            <h4 class="card-title">{{$title}}</h4>
+                            <button class="btn btn-primary btn-round ml-auto" onclick="add_data()">
+                                <i class="fa fa-plus"></i>
+                                Add {{$title}}
+                            </button>
+                        </div>
                     </div>
                     <div class="card-body">
+                        <div class="modal fade" id="modal_form" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog" role="document">
+                                <div class="modal-content">
+                                    <div class="modal-header border-0">
+                                        <h5 class="modal-title">
+                                            <span class="fw-mediumbold">
+                                                New </span>
+                                            <span class="fw-light">
+                                                {{$title}}
+                                            </span>
+                                        </h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        <form enctype="multipart/form-data" id="form">
+                                        <div class="row">
+                                            {{$slot}}
+                                        </div>
+                                        </form>
+                                    </div>
+                                    <div class="modal-footer border-0">
+                                        <button type="button" onclick="save_data()" id="btn_save"
+                                            class="btn btn-primary">Save data</button>
+                                        <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="table-responsive">
                             <table width="100%" id="dataTable" class="display table table-striped table-hover">
                                 <thead>
-                                <tr>
-                                    @foreach($header as $title)
+                                    <tr>
+                                        @foreach($header as $title)
                                         <th>{{ucfirst($title)}}</th>
-                                    @endforeach
-                                </tr>
+                                        @endforeach
+                                    </tr>
                                 </thead>
                             </table>
                         </div>
@@ -43,23 +79,100 @@
 </div>
 
 @push('js')
-    <script !src="">
+<script !src="">
+    var table;
+        var method;
+        var url = "{{$resource}}";
+        var edited_id;
         $(function () {
-            $('#dataTable').DataTable({
+            $.ajaxSetup({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                }
+            });
+            table = $('#dataTable').DataTable({
                 processing: true,
                 serverSide: true,
                 pageLength: 5,
-                ajax : "{{$resource."/json"}}",
+                ajax: url+'/json',
                 columns: [
                         @foreach($header as $key => $val)
                     {
                         data: '{{$key}}',
                         name: '{{$key}}',
-                        orderable: '{{$key == "action" ? false : true }}' ? true: false,
+                        orderable: '{{$key == "action" ? false : true }}' ? true : false,
                     },
                     @endforeach
                 ]
             });
-        })
-    </script>
+        });
+
+        function add_data(){
+            method = "POST";
+            reset_form();
+            $("#modal_form").modal('show');
+            $('.modal-title').text('Add Data');
+        }
+
+        function edit_data(id){
+            edited_id = id;
+            method = "PUT";
+            reset_form();
+            $.ajax({
+                url: url+'/'+id,
+                type: 'GET',
+                dataType: 'JSON',
+                success: function(data){
+                    $.each(data, function(key, value){
+                        console.log('Key: '+ key + ' Value: '+ value);
+                        $("#form input[name="+key+"]").val(value);
+                    });
+                    $("#modal_form").modal('show');
+                    $('.modal-title').text('Edit Data');
+                }
+            })
+        }
+
+        function save_data(){
+            $.ajax({
+                url: method == 'POST' ? url : url+'/'+edited_id,
+                type: method,
+                data: $("#form").serialize(),
+                dataType: "JSON",
+                success: function(data){
+                    $("#modal_form").modal('hide');
+                    reload_table()
+                },
+                error: function(xhr, error, errorThrown){
+                    if(xhr.status == 422){
+                        var errors = xhr.responseJSON.errors;
+                        $.each(errors, function(index, val){
+                            $(".form-group#"+index).addClass('has-error has-feedback').append(
+                                '<label class="error" for="'+index+'">'+val[0]+'</label>'
+                            );
+                        })
+                    }
+                }
+            })
+        }
+        function delete_data(id){
+            $.ajax({
+                url: url+'/'+id,
+                method: 'DELETE',
+                success: function(data){
+                    console.log("Delete");
+                    reload_table(false);
+                }
+            })
+        }
+        function reload_table(){
+            table.ajax.reload(false);
+        }
+
+        function reset_form(){
+            $(".has-error label.error").remove();
+            $(".has-error").removeClass("has-error has-feedback");
+            $("#form")[0].reset();
+        }
+</script>
 @endpush

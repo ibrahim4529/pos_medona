@@ -1,7 +1,11 @@
 <?php
 
 use Illuminate\Support\Str;
-$DATABASE_URL=parse_url(env('DATABASE_URL'));
+use Illuminate\Foundation\Application;
+$env = config('app.env');
+if($env != 'local'){
+    $DATABASE_URL=parse_url(env('DATABASE_URL'));
+}
 return [
 
     /*
@@ -65,11 +69,11 @@ return [
 
         'pgsql' => [
             'driver' => 'pgsql',
-            'host' => $DATABASE_URL['host'],
-            'port' => $DATABASE_URL['port'],
-            'database' => ltrim($DATABASE_URL['path'],"/"),
-            'username' => $DATABASE_URL['user'],
-            'password' => $DATABASE_URL['pass'],
+            'host' => $DATABASE_URL['host'] ?? env('DATABASE_URL'),
+            'port' => $DATABASE_URL['port'] ?? env('DB_HOST', 'localhost'),
+            'database' => ltrim($DATABASE_URL['path'] ?? '/',"/") ?? env('DB_PORT', '1433'),
+            'username' => $DATABASE_URL['user'] ?? env('DB_USERNAME', 'username'),
+            'password' => $DATABASE_URL['pass'] ?? env('DB_PASSWORD', 'password'),
             'charset' => 'utf8',
             'prefix' => '',
             'prefix_indexes' => true,
