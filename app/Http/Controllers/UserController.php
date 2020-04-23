@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use App\User;
 use App\View\Components\DataTable;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Str;
 use Yajra\DataTables\DataTables;
 
 class UserController extends Controller
@@ -46,7 +48,10 @@ class UserController extends Controller
     {
         $input = $request->all();
         $input['photo'] = $request->file('photo')->getClientOriginalName();
-        return response()->json($input);
+        $input['password'] = Hash::make($request->password);
+        $input['api_token'] = Str::random(80);
+        User::create($input);
+        return response()->json('Success');
     }
 
     /**
@@ -55,22 +60,23 @@ class UserController extends Controller
      * @param \App\User $user
      * @return \Illuminate\Http\Response
      */
-    public function show(User $user)
+    public function show(User $pegawai)
     {
-        $user = $user->only(['name', 'email', 'password',
+        $pegawai = $pegawai->only(['name', 'email', 'password',
             'username', 'photo']);
-        return response()->json($user);
+        return response()->json($pegawai);
     }
     /**
      * Update the specified resource in storage.
      *
      * @param \Illuminate\Http\Request $request
-     * @param \App\User $user
+     * @param \App\User $pegawai
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, User $user)
+    public function update(Request $request, User $pegawai)
     {
-        //
+        $input = $request->all();
+        $pegawai->update($input);
     }
 
     /**
@@ -79,8 +85,8 @@ class UserController extends Controller
      * @param \App\User $user
      * @return \Illuminate\Http\Response
      */
-    public function destroy(User $user)
+    public function destroy(User $pegawai)
     {
-        return  $user;
+        $pegawai->delete();
     }
 }
