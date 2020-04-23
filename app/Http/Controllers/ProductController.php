@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Outlet;
 use App\Product;
 use Illuminate\Http\Request;
 use Yajra\DataTables\DataTables;
@@ -12,8 +13,10 @@ class ProductController extends Controller
     {
         $products = Product::all(['id', 'name', 'price', 'qty']);
         return DataTables::of($products)->addColumn('action', function ($data) {
-            $update = '<a href="javascript:void(0)" class="btn btn-primary">' . $data->id . '</a>';
-            return $update;
+            $edit = '<button onclick="edit_data(' . $data->id . ')" class="btn btn-sm btn-primary"><i class="flaticon flaticon-pencil"></i> Edit</button>';
+            $delete = '<button onclick="delete_data(' . $data->id . ')" class="btn btn-sm btn-danger"><i class="flaticon flaticon-close"></i> Delete</button>';
+            $action = '<div class="btn-group" role="group" aria-label="Basic example">' . $edit . $delete . '</div>';
+            return $action;
         })->rawColumns(['action'])->make(true);
     }
     /**
@@ -30,19 +33,10 @@ class ProductController extends Controller
             'qty' => 'Jumlah',
             'action' => 'Action'
         ];
-        return view('product.index', compact('header_table'));
+        $outlets = Outlet::all()->pluck('name', 'id');
+        return view('product.index', compact('header_table', 'outlets'));
     }
 
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
-    }
 
     /**
      * Store a newly created resource in storage.
@@ -52,7 +46,10 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $input = $request->all();
+        $this->validate($request, ['name'=> 'required', 'qty' => 'required', 'outlet_id' => 'required']);
+        Product::create($input);
+        return response()->json(['message' =>'Success']);
     }
 
     /**
@@ -63,19 +60,10 @@ class ProductController extends Controller
      */
     public function show(Product $product)
     {
-        //
+        $product = $product->only(['name', 'price', 'qty', 'description', 'outlet_id']);
+        return response()->json($product);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  \App\Product  $product
-     * @return \Illuminate\Http\Response
-     */
-    public function edit(Product $product)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -86,7 +74,10 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        //
+        $input = $request->all();
+        $this->validate($request, ['name'=> 'required', 'qty' => 'required', 'outlet_id' => 'required']);
+        $product->update($input);
+        return response()->json(['message' =>'Success', 'data' =>$product]);
     }
 
     /**
@@ -97,6 +88,6 @@ class ProductController extends Controller
      */
     public function destroy(Product $product)
     {
-        //
+        $product->delete();
     }
 }

@@ -126,7 +126,7 @@
                 success: function (data) {
                     $.each(data, function (key, value) {
                         console.log('Key: ' + key + ' Value: ' + value);
-                        $("#form input[name=" + key + "], select[name="+key+"]").val(value);
+                        $("#form input[name=" + key + "], select[name="+key+"], textarea[name="+key+"]").val(value);
 
                     });
                     $("#modal_form").modal('show');
