@@ -48,4 +48,14 @@ Route::prefix('inventory')->group(function () {
     Route::resource('products', 'ProductController', [
         'except' => ['edit', 'create']
     ]);
+    Route::get('in/json', 'InventoryController@datatable_produk_in');
+    Route::get('in', 'InventoryController@index_in')->name('in.index');
+    Route::resource('in', 'InventoryController', [
+        'except' => ['index','edit', 'create']
+    ]);
+    Route::get('out/json', 'InventoryController@datatable_produk_out');
+    Route::get('out', 'InventoryController@index_out')->name('out.index');
+    Route::resource('out', 'InventoryController', [
+        'except' => ['index', 'edit', 'create']
+    ]);
 });

@@ -15,6 +15,7 @@ class AddSomeDetailToSomeTable extends Migration
     {
         Schema::create('inventory_details', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('qty');
             $table->foreignId('inventory_id')->constrained()->onDelete('cascade');
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->timestamps();

@@ -80,115 +80,115 @@
 </div>
 
 @push('js')
-    <script !src="">
-        var table;
-        var method;
-        var url = "{{$resource}}";
-        var edited_id;
-        $(function () {
-            $.ajaxSetup({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                }
-            });
-            table = $('#dataTable').DataTable({
-                processing: true,
-                serverSide: true,
-                pageLength: 5,
-                ajax: url + '/json',
-                columns: [
-                        @foreach($header as $key => $val)
-                    {
-                        data: '{{$key}}',
-                        name: '{{$key}}',
-                        orderable: '{{$key == "action" ? false : true }}' ? true : false,
-                    },
-                    @endforeach
-                ]
-            });
+<script !src="">
+    var table;
+    var method;
+    var url = "{{$resource}}";
+    var edited_id;
+    $(function () {
+        $.ajaxSetup({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
         });
-
-        function add_data() {
-            method = "POST";
-            reset_form();
-            $("#modal_form").modal('show');
-            $('.modal-title').text('Add Data');
-        }
-
-        function edit_data(id) {
-            edited_id = id;
-            method = "PUT";
-            reset_form();
-            $.ajax({
-                url: url + '/' + id,
-                type: 'GET',
-                dataType: 'JSON',
-                success: function (data) {
-                    $.each(data, function (key, value) {
-                        console.log('Key: ' + key + ' Value: ' + value);
-                        $("#form input[name=" + key + "], select[name="+key+"], textarea[name="+key+"]").val(value);
-                    });
-                    $("#modal_form").modal('show');
-                    $('.modal-title').text('Edit Data');
-                }
-            })
-        }
-
-        function save_data() {
-            var formData = new FormData($("#form")[0]);
-            $.ajax({
-                url: method == 'POST' ? url : url + '/' + edited_id,
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                dataType: "JSON",
-                beforeSend: function () {
-                    if(method != 'POST'){
-                        formData.append('_method', 'PATCH');
-                    }
-                    delete_error();
+        table = $('#dataTable').DataTable({
+            processing: true,
+            serverSide: true,
+            pageLength: 5,
+            ajax: url + '/json',
+            columns: [
+                @foreach($header as $key => $val)
+                {
+                    data: '{{$key}}',
+                    name: '{{$key}}',
+                    orderable: '{{$key == "action" ? false : true }}' ? true : false,
                 },
-                success: function (data) {
-                    $("#modal_form").modal('hide');
-                    reload_table()
-                },
-                error: function (xhr, error, errorThrown) {
-                    if (xhr.status == 422) {
-                        var errors = xhr.responseJSON.errors;
-                        $.each(errors, function (index, val) {
-                            $(".form-group#" + index).addClass('has-error has-feedback').append(
-                                '<label class="error" for="' + index + '">' + val[0] + '</label>'
-                            );
-                        })
-                    }
+                @endforeach
+            ]
+        });
+    });
+
+    function add_data() {
+        method = "POST";
+        reset_form();
+        $("#modal_form").modal('show');
+        $('.modal-title').text('Add Data');
+    }
+
+    function edit_data(id) {
+        edited_id = id;
+        method = "PUT";
+        reset_form();
+        $.ajax({
+            url: url + '/' + id,
+            type: 'GET',
+            dataType: 'JSON',
+            success: function (data) {
+                $.each(data, function (key, value) {
+                    console.log('Key: ' + key + ' Value: ' + value);
+                    $("#form input[name=" + key + "], select[name="+key+"], textarea[name="+key+"]").val(value);
+                });
+                $("#modal_form").modal('show');
+                $('.modal-title').text('Edit Data');
+            }
+        })
+    }
+
+    function save_data() {
+        var formData = new FormData($("#form")[0]);
+        $.ajax({
+            url: method == 'POST' ? url : url + '/' + edited_id,
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            dataType: "JSON",
+            beforeSend: function () {
+                if(method != 'POST'){
+                    formData.append('_method', 'PATCH');
                 }
-            })
-        }
-
-        function delete_data(id) {
-            $.ajax({
-                url: url + '/' + id,
-                method: 'DELETE',
-                success: function (data) {
-                    console.log(data);
-                    reload_table(false);
+                delete_error();
+            },
+            success: function (data) {
+                $("#modal_form").modal('hide');
+                reload_table()
+            },
+            error: function (xhr, error, errorThrown) {
+                if (xhr.status == 422) {
+                    var errors = xhr.responseJSON.errors;
+                    $.each(errors, function (index, val) {
+                        $(".form-group#" + index).addClass('has-error has-feedback').append(
+                            '<label class="error" for="' + index + '">' + val[0] + '</label>'
+                        );
+                    })
                 }
-            })
-        }
+            }
+        })
+    }
 
-        function reload_table() {
-            table.ajax.reload(false);
-        }
+    function delete_data(id) {
+        $.ajax({
+            url: url + '/' + id,
+            method: 'DELETE',
+            success: function (data) {
+                console.log(data);
+                reload_table(false);
+            }
+        })
+    }
 
-        function reset_form() {
-            delete_error();
-            $("#form")[0].reset();
-        }
+    function reload_table() {
+        table.ajax.reload(false);
+    }
 
-        function delete_error() {
-            $(".has-error label.error").remove();
-            $(".has-error").removeClass("has-error has-feedback");
-        }
-    </script>
+    function reset_form() {
+        delete_error();
+        $("#form")[0].reset();
+    }
+
+    function delete_error() {
+        $(".has-error label.error").remove();
+        $(".has-error").removeClass("has-error has-feedback");
+    }
+</script>
 @endpush
