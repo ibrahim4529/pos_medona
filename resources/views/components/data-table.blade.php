@@ -30,8 +30,8 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="modal fade" id="modal_form" tabindex="-1" role="dialog" aria-hidden="true">
-                            <div class="modal-dialog" role="document">
+                        <div class="modal fade bd-example-modal-lg" id="modal_form" tabindex="-1" role="dialog" aria-hidden="true">
+                            <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header border-0">
                                         <h5 class="modal-title">
@@ -54,7 +54,7 @@
                                     </div>
                                     <div class="modal-footer border-0">
                                         <button type="button" onclick="save_data()" id="btn_save"
-                                                class="btn btn-primary">Save data
+                                            class="btn btn-primary">Save data
                                         </button>
                                         <button type="button" class="btn btn-danger" data-dismiss="modal">Close</button>
                                     </div>
@@ -64,11 +64,11 @@
                         <div class="table-responsive">
                             <table width="100%" id="dataTable" class="display table table-striped table-hover">
                                 <thead>
-                                <tr>
-                                    @foreach($header as $title)
+                                    <tr>
+                                        @foreach($header as $title)
                                         <th>{{ucfirst($title)}}</th>
-                                    @endforeach
-                                </tr>
+                                        @endforeach
+                                    </tr>
                                 </thead>
                             </table>
                         </div>

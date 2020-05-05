@@ -4,5 +4,9 @@
 			"path": "."
 		}
 	],
-	"settings": {}
+	"settings": {
+		"python.autoComplete.extraPaths": [
+			"/Users/ibrahim/ros2-osx/lib/python3.7/site-packages"
+		]
+	}
 }
