@@ -22,19 +22,9 @@
         {!! Form::input('phone', 'phone', old('phone'), ['class' => 'form-control']) !!}
     </div>
 </div>
-<div class="col-sm-6">
+<div class="col-md-6">
     <div class="form-group" id="outlet_id">
         {!! Form::label('outlet_id', 'Outlet', ['class'=>'placeholder']) !!}
-        <div class="select2-input">
-            {!! Form::select('outlet_id', $outlets, old('outlet_id'), ['placeholder' => 'Pilih Outlet','class' => 'form-control']) !!}
-        </div>
+        {!! Form::select('outlet_id', $outlets, old('outlet_id'), ['placeholder' => 'Pilih Outlet', 'style'=> 'width: 100%;']) !!}
     </div>
 </div>
-
-@push('js')
-    <script>
-        $("select").select2({
-			theme: "bootstrap",
-		});
-    </script>
-@endpush

@@ -72,7 +72,10 @@ class SupplierController extends Controller
      */
     public function update(Request $request, Supplier $supplier)
     {
-        //
+        $input = $request->all();
+        $this->validate($request, ['name' => 'required', 'phone' => 'required']);
+        $supplier->update($input);
+        return response()->json(['message'=> 'Success'], 200);
     }
 
     /**

@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/medona_pos.iml" filepath="$PROJECT_DIR$/.idea/medona_pos.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/pos_medona.iml" filepath="$PROJECT_DIR$/.idea/pos_medona.iml" />
     </modules>
   </component>
 </project>

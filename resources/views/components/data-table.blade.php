@@ -30,7 +30,7 @@
                         </div>
                     </div>
                     <div class="card-body">
-                        <div class="modal fade bd-example-modal-lg" id="modal_form" tabindex="-1" role="dialog" aria-hidden="true">
+                        <div class="modal fade bd-example-modal-lg" id="modal_form" role="dialog" aria-hidden="true">
                             <div class="modal-dialog modal-lg" role="document">
                                 <div class="modal-content">
                                     <div class="modal-header border-0">
@@ -109,6 +109,7 @@
     });
 
     function add_data() {
+        initSelect2();
         method = "POST";
         reset_form();
         $("#modal_form").modal('show');
@@ -130,11 +131,13 @@
                 });
                 $("#modal_form").modal('show');
                 $('.modal-title').text('Edit Data');
+                initSelect2();
             }
         })
     }
 
     function save_data() {
+        console.log("Save");
         var formData = new FormData($("#form")[0]);
         $.ajax({
             url: method == 'POST' ? url : url + '/' + edited_id,
@@ -184,6 +187,12 @@
     function reset_form() {
         delete_error();
         $("#form")[0].reset();
+    }
+
+    function initSelect2() {
+        $(".form-group select").select2({
+            theme: 'bootstrap'
+        });
     }
 
     function delete_error() {
