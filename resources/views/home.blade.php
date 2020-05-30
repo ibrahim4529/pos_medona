@@ -12,7 +12,7 @@
         </div>
         <div class="page-inner mt--5">
             <div class="row">
-                <div class="col-md-4  col-md-3">
+                <div class="col-md-3">
                     <div class="card card-stats card-round">
                         <div class="card-body ">
                             <div class="row">
@@ -24,14 +24,33 @@
                                 <div class="col-7 col-stats">
                                     <div class="numbers">
                                         <p class="card-category">Users</p>
-                                        <h4 class="card-title">{{10}}</h4>
+                                        <h4 class="card-title">{{$jumlah_data['pegawai']}}</h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4  col-md-3">
+                <div class="col-md-3">
+                    <div class="card card-stats card-round">
+                        <div class="card-body ">
+                            <div class="row">
+                                <div class="col-5">
+                                    <div class="icon-big text-center">
+                                        <i class="flaticon-thing text-warning"></i>
+                                    </div>
+                                </div>
+                                <div class="col-7 col-stats">
+                                    <div class="numbers">
+                                        <p class="card-category">Outlet</p>
+                                        <h4 class="card-title">{{$jumlah_data['outlet']}}</h4>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-3">
                     <div class="card card-stats card-round">
                         <div class="card-body ">
                             <div class="row">
@@ -42,15 +61,15 @@
                                 </div>
                                 <div class="col-7 col-stats">
                                     <div class="numbers">
-                                        <p class="card-category">Outlet</p>
-                                        <h4 class="card-title">{{10}}</h4>
+                                        <p class="card-category">Products</p>
+                                        <h4 class="card-title">{{$jumlah_data['product']}}</h4>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                <div class="col-md-4  col-md-3">
+                <div class="col-md-3">
                     <div class="card card-stats card-round">
                         <div class="card-body ">
                             <div class="row">
@@ -61,8 +80,8 @@
                                 </div>
                                 <div class="col-7 col-stats">
                                     <div class="numbers">
-                                        <p class="card-category">Outlet</p>
-                                        <h4 class="card-title">{{10}}</h4>
+                                        <p class="card-category">Category</p>
+                                        <h4 class="card-title">{{$jumlah_data['category']}}</h4>
                                     </div>
                                 </div>
                             </div>

@@ -1,6 +1,10 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\User;
+use App\Product;
+use App\Outlet;
+use App\Category;
 
 use Illuminate\Http\Request;
 
@@ -23,6 +27,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $jumlah_data = [
+            'pegawai' => User::count(),
+            'category' => Category::count(),
+            'product' => Product::count(),
+            'outlet' => Outlet::count()
+        ];
+        return view('home', compact('jumlah_data'));
     }
 }
