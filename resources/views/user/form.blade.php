@@ -31,6 +31,7 @@
 </div>
 <div class="col-sm-12">
     <div class="form-group" id="photo">
+        <img id="photo" src="" alt="" class="img img-circle">
         {!! Form::label('photo', 'Photo', ['class'=>'placeholder']) !!}
         {!! Form::file('photo', ['class' => 'form-control']) !!}
     </div>

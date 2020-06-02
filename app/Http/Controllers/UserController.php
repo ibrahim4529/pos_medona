@@ -47,7 +47,10 @@ class UserController extends Controller
     public function store(Request $request)
     {
         $input = $request->all();
-        $input['photo'] = $request->file('photo')->getClientOriginalName();
+        $image = $request->file('photo');
+        $name = 'image-'.rand().'.'.$image->getClientOriginalExtension();
+        $image->move(public_path('img'), $name);
+        $input['photo'] = $name;
         $input['password'] = Hash::make($request->password);
         $input['api_token'] = Str::random(80);
         User::create($input);

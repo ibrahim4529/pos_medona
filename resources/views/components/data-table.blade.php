@@ -127,7 +127,8 @@
             success: function (data) {
                 $.each(data, function (key, value) {
                     console.log('Key: ' + key + ' Value: ' + value);
-                    $("#form input[name=" + key + "], select[name="+key+"], textarea[name="+key+"]").val(value);
+                    $("img#photo").attr("src", "/img/"+value);
+                    $("#form input[name=" + key + "], select[name="+key+"], textarea[name="+key+"]").not("input[type=file]").val(value);
                 });
                 $("#modal_form").modal('show');
                 $('.modal-title').text('Edit Data');

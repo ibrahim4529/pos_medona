@@ -31,8 +31,8 @@
      inkscape:window-maximized="1"
      inkscape:window-y="23"
      inkscape:window-x="0"
-     inkscape:cy="27.34641"
-     inkscape:cx="45.422028"
+     inkscape:cy="28.569052"
+     inkscape:cx="75.418885"
      inkscape:zoom="9.8148148"
      showgrid="false"
      id="namedview132"
@@ -45,7 +45,8 @@
      objecttolerance="10"
      borderopacity="1"
      bordercolor="#666666"
-     pagecolor="#ffffff" />
+     pagecolor="#ffffff"
+     inkscape:document-rotation="0" />
   <defs
      id="defs116">
     <clipPath
@@ -72,6 +73,18 @@
   <g
      id="g128"
      clip-path="url(#_clipPath_Oym1fQWp4902RANcb93UAmaY2a1Es4ds)">
+    <text
+       transform="matrix(1.8424832,0,0,1.9600415,-89.253633,1.3644145)"
+       id="text1103"
+       y="11.615094"
+       x="106.19194"
+       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.96743000000000023px;line-height:0.85;font-family:'Fira Code';-inkscape-font-specification:'Fira Code';text-align:end;text-anchor:end;fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:0.589026;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;filter:url(#filter1674);"
+       xml:space="preserve"><tspan
+         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.96743000000000023px;font-family:'Fira Code';-inkscape-font-specification:'Fira Code';text-align:end;text-anchor:end;fill:none;fill-opacity:1;stroke:#ffffff;stroke-width:0.589026;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1;"
+         y="11.615094"
+         x="112.32425"
+         sodipodi:role="line"
+         id="tspan1428">SEDONA </tspan></text>
     <g
        style="fill:none;stroke:#ffffff;stroke-opacity:1"
        id="g126">
@@ -91,22 +104,5 @@
          fill="rgb(255,255,255)"
          d=" M 20.262 25.902 L 15.447 28.682 L 10.631 25.902 L 10.631 31.462 L 15.447 34.242 L 20.262 31.462 L 20.262 25.902 Z " />
     </g>
-    <text
-       transform="matrix(1.2788922,0,0,0.99992312,-41.875949,2.8536173)"
-       id="text1103"
-       y="11.615094"
-       x="60.520756"
-       style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.96743000000000023px;line-height:1.25;font-family:AppleMyungjo;-inkscape-font-specification:AppleMyungjo;fill:none;fill-opacity:1;stroke:#ffffff;filter:url(#filter1674);stroke-opacity:1;"
-       xml:space="preserve"><tspan
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.96743000000000023px;font-family:AppleMyungjo;-inkscape-font-specification:AppleMyungjo;fill:none;fill-opacity:1;stroke:#ffffff;stroke-opacity:1;"
-         y="11.615094"
-         x="60.520756"
-         id="tspan1101"
-         sodipodi:role="line">AHHAS </tspan><tspan
-         id="tspan1678"
-         style="font-style:normal;font-variant:normal;font-weight:normal;font-stretch:normal;font-size:9.96743000000000023px;font-family:AppleMyungjo;-inkscape-font-specification:AppleMyungjo;fill:none;fill-opacity:1;stroke:#ffffff;stroke-opacity:1;"
-         y="24.074383"
-         x="60.520756"
-         sodipodi:role="line">MUSTIKA</tspan></text>
   </g>
 </svg>
